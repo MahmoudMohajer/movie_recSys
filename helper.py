@@ -112,7 +112,7 @@ def test_model(model, test_loader, criterion, device):
     return test_loss
 
 @task(name="Convert To ONNX")
-def convert_to_onnx(model, num_movies, device):
+def convert_to_onnx(model, num_movies, device, file_path):
     # Set the model to evaluation mode
     model.eval()
 
@@ -126,7 +126,7 @@ def convert_to_onnx(model, num_movies, device):
 
 
     # Export the model to ONNX format
-    onnx_file_path = "model.onnx"
+    onnx_file_path = file_path 
     torch.onnx.export(model, (user_ids, all_movie_ids), onnx_file_path, input_names=["user_ids", "movie_ids"], output_names=["ratings"], opset_version=11)
 
     print(f"Model has been converted to ONNX and saved as {onnx_file_path}")
